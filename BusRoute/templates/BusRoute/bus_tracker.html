@@ -3,7 +3,6 @@
 
 {% comment %} Commenting out the original testing one and replacing it with random {% endcomment %}
 
-{% comment %} {% extends "BusRoute/layout.html" %}
 {% load static %}
 
 {% block style %}
@@ -81,10 +80,10 @@
   // Repeat every 5 seconds
   setInterval(fetchBusLocations, 5000);
 </script>
-{% endblock body %} {% endcomment %}
+{% endblock body %} 
 
 
-{% load static %}
+{% comment %} {% load static %}
 
 {% block style %}
 <!-- Leaflet CSS and JS -->
@@ -166,4 +165,4 @@
   setInterval(updateMockBusLocations, 10000);
 </script>
 {% endblock body %}
-
+ {% endcomment %}
