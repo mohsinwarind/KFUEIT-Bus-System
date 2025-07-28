@@ -1,0 +1,134 @@
+{% extends "BusRoute/layout.html" %}
+{% block title %}Report and View Missing Items{% endblock title %}
+
+{% block style %}
+{% load static %}
+<link href="{% static 'BusRoute\report_and_view_missing_items.css' %}" rel="stylesheet">
+{% endblock style %}
+
+{% block body %}
+<div class="container">
+    <!-- Tab Navigation -->
+    <div class="tabs">
+        <div class="tab active" data-target="form">Report a Missing Item</div>
+        <div class="tab" data-target="complaints">Your Previous Complaints</div>
+    </div>
+
+    <!-- Form Section -->
+    <div id="form" class="form-container active">
+        <div class="form-box">
+            <h2>Report a Missing Item</h2>
+            <form id="complaint-form" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="id_item_name" class="form-label">Item Name</label>
+                    <input type="text" name="item_name" id="id_item_name" class="form-control" >
+                    <div class="invalid-feedback">
+                        Please provide a valid item name.
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_description" class="form-label">Description</label>
+                    <textarea name="description" id="id_description" class="form-control">{{ form.description.value }}</textarea>
+                    <div class="invalid-feedback">
+                        Please provide a description.
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_location" class="form-label">Location</label>
+                    <input type="text" name="location" id="id_location" class="form-control" >
+                    <div class="invalid-feedback">
+                        Please provide a location.
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_date_lost" class="form-label">Date Lost</label>
+                    <input type="date" name="date_lost" id="id_date_lost" class="form-control" >
+                    <div class="invalid-feedback">
+                        Please enter a valid date in the format YYYY-MM-DD.
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_image" class="form-label">Upload Image (optional)</label>
+                    <input type="file" name="image" id="id_image" class="form-control">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_contact_email" class="form-label">Contact Email</label>
+                    <input type="email" name="contact_email" id="id_contact_email" class="form-control" >
+                    <div class="invalid-feedback">
+                        Please provide a valid email.
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_contact_phone" class="form-label">Contact Phone</label>
+                    <input type="tel" name="contact_phone" id="id_contact_phone" class="form-control" >
+                    <div class="invalid-feedback">
+                        Please provide a valid phone number.
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Complaints Section -->
+    <div id="complaints" class="form-container">
+        <h3>Your Previous Complaints</h3>
+        <div id="complaints-list">
+            {% for complaint in complaints %}
+                <div class="complaint-box">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h4>{{ complaint.item_name }}</h4>
+                        <div>
+                            <button class="btn btn-sm btn-warning edit-complaint" data-id="{{ complaint.id }}">Edit</button>
+                            <button class="btn btn-sm btn-danger delete-complaint" data-id="{{ complaint.id }}">Delete</button>
+                        </div>
+                    </div>
+                    
+                    <form class="update-status-form mb-3" data-id="{{ complaint.id }}">
+                        <select name="status" class="form-select form-select-sm">
+                            <option value="Pending" {% if complaint.status == "Pending" %}selected{% endif %}>Pending</option>
+                            <option value="Found" {% if complaint.status == "Found" %}selected{% endif %}>Found</option>
+                            <option value="Closed" {% if complaint.status == "Closed" %}selected{% endif %}>Closed</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary mt-2">Update Status</button>
+                    </form>
+                    
+                    <div class="mb-2">
+                        {% if complaint.image %}
+                            <img src="{{ complaint.image.url }}" alt="{{ complaint.item_name }}" class="img-fluid">
+                        {% endif %}
+                    </div>
+                    
+                    <p><strong>Location:</strong> {{ complaint.location }}</p>
+                    <p><strong>Missing Since:</strong> {{ complaint.date_lost }}</p>
+                    <p><strong>Reported At:</strong> {{ complaint.date_reported }}</p>
+                    <p><strong>Status:</strong> {{ complaint.status }}</p>
+                    <p>{{ complaint.description }}</p>
+                    <p><strong>Contact Email:</strong> {{ complaint.contact_email }}</p>
+                    <p><strong>Contact Phone:</strong> {{ complaint.contact_phone }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block script %}
+{% load static %}
+<script src="{% static "BusRoute\missingreport.js" %}"></script>
+<script>
+    window.urls = {
+        reportMissingItems: "{% url 'report_and_view_missing_items' %}"
+    };
+</script>
+
+{% endblock script %}

@@ -1,0 +1,65 @@
+{% extends "BusRoute/layout.html" %}
+{% block title %}Edit Missing Item{% endblock title %}
+{% block body %}
+<div class="container">
+    <h2 class="mb-4">Edit Missing Item</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="{{ form.item_name.id_for_label }}">Item Name</label>
+                <input type="text" name="item_name" id="{{ form.item_name.id_for_label }}" class="form-control" value="{{ form.item_name.value|default:'' }}" />
+                <div class="invalid-feedback">
+                    Please provide a valid item name.
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="{{ form.location.id_for_label }}">Location</label>
+                <input type="text" name="location" id="{{ form.location.id_for_label }}" class="form-control" value="{{ form.location.value|default:'' }}" />
+                <div class="invalid-feedback">
+                    Please provide a valid location.
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="{{ form.date_lost.id_for_label }}">Date Lost</label>
+                <input type="date" name="date_lost" id="{{ form.date_lost.id_for_label }}" class="form-control" value="{{ form.date_lost.value|default:'' }}" />
+                <div class="invalid-feedback">
+                    Please provide a valid date.
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="{{ form.date_reported.id_for_label }}">Date Reported</label>
+                <input type="date" name="date_reported" id="{{ form.date_reported.id_for_label }}" class="form-control" value="{{ form.date_reported.value|default:'' }}" />
+                <div class="invalid-feedback">
+                    Please provide a valid date.
+                </div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label for="{{ form.description.id_for_label }}">Description</label>
+                <textarea name="description" id="{{ form.description.id_for_label }}" class="form-control" rows="4">{{ form.description.value|default:'' }}</textarea>
+                <div class="invalid-feedback">
+                    Please provide a description.
+                </div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label for="{{ form.image.id_for_label }}">Image</label>
+                <input type="file" name="image" id="{{ form.image.id_for_label }}" class="form-control" />
+                <div class="invalid-feedback">
+                    Please upload a valid image.
+                </div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock body %}

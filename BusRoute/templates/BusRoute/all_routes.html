@@ -1,0 +1,21 @@
+{% extends "BusRoute/layout.html" %}
+{% block style %}
+{% load static %}
+<link href="{% static 'BusRoute/all_routes.css' %}" rel="stylesheet">
+
+{% endblock style %}
+{% block body %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Available Bus Routes</h1>
+
+    <ul class="bus-list">
+        {% for buses in bus_routes %}
+        <li class="bus-list-item">
+            <a href="{% url 'bus_route_detail' bus_route_id=buses.id %}" target="_blank" class="w-100 d-block text-decoration-none">
+                <div class="bus-name">{{ buses.name }}</div>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock body %}

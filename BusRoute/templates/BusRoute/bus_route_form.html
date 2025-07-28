@@ -1,0 +1,83 @@
+{% extends "BusRoute/layout.html" %}
+{% block title %}Bus Route Form{% endblock title %}
+
+{% block style %}
+{% load static %}
+<link href="{% static 'BusRoute/bus_route_form.css' %}" rel="stylesheet">
+
+{% endblock style %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Create New Bus Route</h1>
+    <form id="busRouteForm" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="bus_route" class="form-label">Bus Route:</label>
+            <select id="bus_route" name="bus_route" class="form-select">
+                <option value="" selected>Select or Add New Route</option>
+                {% for route in bus_routes %}
+                <option value="{{ route.id }}">{{ route.name }}</option>
+                {% endfor %}
+                <option value="new">Add New Route</option>
+            </select>
+        </div>
+        
+        <div id="newRouteDiv" class="mb-3" style="display: none;">
+            <label for="new_route_name" class="form-label">New Route Name:</label>
+            <input type="text" id="new_route_name" name="new_route_name" class="form-control">
+        </div>
+        
+        <h2>Pickup Timing</h2>
+        <div class="mb-3">
+            <button type="button" id="addPickupRow" class="btn btn-primary me-2">Add Pickup Stop</button>
+            <button type="button" id="removePickupRow" style="display:none" class="btn btn-danger me-2">Remove Pickup Stop</button>
+            <button type="button" id="addPickupTimeColumn" class="btn btn-primary me-2">Add Time Column</button>
+            <button type="button" id="removePickupTimeColumn" style="display:none" class="btn btn-danger">Remove Time Column</button>
+        </div>
+        <table id="pickupTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Stop Name</th>
+                    <th>Time 1</th>
+                </tr>
+            </thead>
+            <tbody id="pickupRows">
+                <tr>
+                    <td><input type="text" name="pickup[0][name]" class="form-control" required></td>
+                    <td><input type="text" name="pickup[0][time][0]" class="form-control"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Dropoff Timing</h2>
+        <div class="mb-3">
+            <button type="button" id="addDropRow" class="btn btn-primary me-2">Add Drop Stop</button>
+            <button type="button" id="removeDropRow" style="display:none" class="btn btn-danger me-2">Remove Drop Stop</button>
+            <button type="button" id="addDropTimeColumn" class="btn btn-primary me-2">Add Time Column</button>
+            <button type="button" id="removeDropTimeColumn" style="display:none" class="btn btn-danger">Remove Time Column</button>
+        </div>
+        <table id="dropTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Stop Name</th>
+                    <th>Time 1</th>
+                </tr>
+            </thead>
+            <tbody id="dropRows">
+                <tr>
+                    <td><input type="text" name="drop[0][name]" class="form-control" required></td>
+                    <td><input type="text" name="drop[0][time][0]" class="form-control"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-success mt-3">Save</button>
+    </form>
+</div>
+{% endblock body %}
+
+{% block script %}
+{% load static %}
+<script src="{% static "BusRoute/script.js" %}"></script>
+{% endblock script %}

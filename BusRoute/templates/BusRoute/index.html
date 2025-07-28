@@ -1,0 +1,89 @@
+{% extends "BusRoute/layout.html" %}
+
+
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static "BusRoute/index.css" %}">
+{% endblock style %}
+{% block body %}
+<!-- Hero Section -->
+<section class="hero bg-dark text-white text-center py-5">
+    <div class="container">
+        <h1 class="display-4">Welcome to the KFUEIT Bus System</h1>
+        <p class="lead">Your one-stop solution for managing bus routes,drivers and Missing Complaints.</p>
+    </div>
+</section>
+
+<!-- Available Bus Routes -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Available Bus Routes</h2>
+    <div class="row">
+        {% for route in bus_routes %}
+        <div class="col-md-4 mb-4">
+            <a href="{% url 'bus_route_detail' bus_route_id=route.id %}" class="card modern-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ route.name }}</h5>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <p class="text-center col-12">No bus routes available.</p>
+        {% endfor %}
+    </div>
+    <div class="text-center my-4">
+        <a href="{% url 'all_routes' %}" class="btn btn-secondary">More Routes</a>
+    </div>
+</section>
+
+<!-- Available Drivers -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Meet Our Drivers</h2>
+    <div class="row">
+        {% for driver in drivers %}
+        <div class="col-md-4 mb-4">
+            <a href="{% url 'driver_profile' pk=driver.pk %}" class="card modern-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ driver.name }}</h5>
+                    <p class="card-text">Rating: {{ driver.rating|default:"No rating yet" }}</p>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <p class="text-center col-12">No drivers available.</p>
+        {% endfor %}
+    </div>
+    <div class="text-center my-4">
+        <a href="{% url 'drivers' %}" class="btn btn-secondary">More Drivers</a>
+    </div>
+</section>
+
+<!-- Navigation Links -->
+<section class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-4 mb-3">
+            <a class="btn nav-btn" href="{% url 'all_routes' %}">All Routes</a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a class="btn nav-btn" href="{% url 'all_missing_complaints' %}">All Complaints</a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a class="btn nav-btn" href="{% url 'drivers' %}">All Drivers</a>
+        </div>
+    </div>
+</section>
+
+<!-- User Authentication Links -->
+<section class="container my-5">
+    <div class="text-center" id="footer-links">
+        {% if user.is_authenticated %}
+        <a class="btn nav-btn auth-btn logout" href="{% url 'logout' %}">Log Out</a>
+        <a class="btn nav-btn auth-btn report" href="{% url 'report_and_view_missing_items' %}">Report Missing Item</a>
+        <a class="btn nav-btn auth-btn create" href="{% url 'add_bus_route' %}">Create New Route</a>
+        {% else %}
+        <a class="btn nav-btn auth-btn login" href="{% url 'login' %}">Log In</a>
+        <a class="btn nav-btn auth-btn register" href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock body %}

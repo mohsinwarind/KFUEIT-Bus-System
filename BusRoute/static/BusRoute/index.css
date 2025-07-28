@@ -1,0 +1,148 @@
+/* General Card Styles */
+.card.modern-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none; 
+    color: #333; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%; 
+}
+
+.card.modern-card .card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.card.modern-card .card-title, 
+.card.modern-card .card-text {
+    margin: 0;
+    color: inherit; 
+}
+
+.card.modern-card:hover {
+    transform: translateY(-10px); 
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); 
+}
+
+.card.modern-card:hover .card-title, 
+.card.modern-card:hover .card-text {
+    color: inherit; 
+}
+
+.card.modern-card a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%; 
+    width: 100%; 
+}
+
+.card.modern-card a:hover {
+    text-decoration: none; 
+    color: inherit; 
+}
+
+/* Button Styles */
+.btn {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.nav-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.nav-btn:hover {
+    opacity: 0.8;
+}
+
+
+section.container.my-5 .row {
+    justify-content: center; 
+}
+
+section.container.my-5 .btn {
+    display: inline-block; 
+    width: auto; 
+    margin-bottom: 15px;
+}
+
+/* Dark Theme Adjustments */
+.dark .hero {
+    background-color: #343a40;
+}
+
+.dark .btn-primary {
+    background-color: #495057;
+    color: #fff;
+}
+
+.dark .btn-primary:hover {
+    background-color: #343a40;
+}
+
+.dark .btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.dark .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.dark .card.modern-card {
+    background-color: #495057;
+    color: #fff;
+}
+
+.dark .card.modern-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+.dark .nav-btn {
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.dark .nav-btn:hover {
+    background-color: #6c757d;
+}

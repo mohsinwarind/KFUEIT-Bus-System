@@ -1,0 +1,96 @@
+{% extends "BusRoute/layout.html" %}
+
+{% block title %}{{ bus_route.name }}{% endblock title %}
+
+{% block style %}
+{% load static %}
+<link href="{% static 'BusRoute/bus_route_detail.css' %}" rel="stylesheet">
+
+{% endblock style %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 id="routeTitle">{{ bus_route.name }}</h1>
+        {% if user.is_authenticated %}
+        <div class="d-flex">
+            <button id="editButton" class="btn btn-primary me-2">Edit</button>
+            <form id="deleteForm" action="{% url "delete_bus_route" bus_route.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div id="routeId" style="display: none;">{{ bus_route.id }}</div>
+
+    <!-- Pickup Timing Section -->
+    <h2 class="mb-4 mt-4 text-center">Pickup Timing</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="pickupTable">
+            <thead class="table-dark">
+                <tr>
+                    <th>Stop Name</th>
+                    {% for i in pickup_time_range %}
+                        <th>Time {{ forloop.counter }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for stop, times in pickup_points %}
+                <tr>
+                    <td class="editable" data-type="stop">{{ stop }}</td>
+                    {% for time in times %}
+                    <td class="editable" data-type="time">{{ time }}</td>
+                    {% empty %}
+                    <td>-</td>
+                    {% endfor %}
+                    {% if times|length < max_pickup_times %}
+                        {% for _ in pickup_time_range|slice:":times|length" %}
+                        <td>-</td>
+                        {% endfor %}
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Dropoff Timing Section -->
+    <h2 class="mt-5 mb-4 text-center">Dropoff Timing</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="dropTable">
+            <thead class="table-dark">
+                <tr>
+                    <th>Stop Name</th>
+                    {% for i in drop_time_range %}
+                        <th>Time {{ forloop.counter }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for stop, times in drop_points %}
+                <tr>
+                    <td class="editable" data-type="stop">{{ stop }}</td>
+                    {% for time in times %}
+                    <td class="editable" data-type="time">{{ time }}</td>
+                    {% empty %}
+                    <td>-</td>
+                    {% endfor %}
+                    {% if times|length < max_drop_times %}
+                        {% for _ in drop_time_range|slice:":times|length" %}
+                        <td>-</td>
+                        {% endfor %}
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% load static %}
+<script src="{% static 'BusRoute/edit.js' %}"></script>
+
+{% endblock body %}

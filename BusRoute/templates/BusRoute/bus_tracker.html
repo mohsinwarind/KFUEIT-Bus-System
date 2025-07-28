@@ -1,0 +1,169 @@
+{% extends "BusRoute/layout.html" %}
+
+
+{% comment %} Commenting out the original testing one and replacing it with random {% endcomment %}
+
+{% comment %} {% extends "BusRoute/layout.html" %}
+{% load static %}
+
+{% block style %}
+<!-- Leaflet CSS and JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<style>
+  #map {
+    height: 90vh;
+    width: 100%;
+  }
+</style>
+{% endblock style %}
+
+{% block body %}
+<h2 style="text-align: center;">Live Bus Tracker</h2>
+<div id="map"></div>
+
+<script>
+  // Initialize map (default view - Karachi)
+  var map = L.map('map').setView([24.8607, 67.0011], 12);
+
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+  }).addTo(map);
+
+  // Store markers by bus ID
+  let markers = {};
+
+  // Function to fetch and update bus locations
+  async function fetchBusLocations() {
+    try {
+      console.log("🔄 Fetching bus locations...");
+
+      const response = await fetch("https://mohsinramzan-testingfastapi.hf.space/locations");
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("✅ Data received:", data);
+
+      let bounds = [];
+
+      for (let bus_id in data) {
+        const { lat, lon, last_updated } = data[bus_id];
+        const popupText = `<b>${bus_id}</b><br/>Last updated: ${last_updated}`;
+
+        if (markers[bus_id]) {
+          // Update existing marker
+          markers[bus_id].setLatLng([lat, lon]).setPopupContent(popupText);
+        } else {
+          // Create new marker
+          const marker = L.marker([lat, lon]).addTo(map).bindPopup(popupText);
+          markers[bus_id] = marker;
+        }
+
+        bounds.push([lat, lon]);
+      }
+
+      // Adjust view to fit all buses
+      if (bounds.length > 0) {
+        map.fitBounds(bounds);
+      }
+
+    } catch (error) {
+      console.error("❌ Failed to fetch bus data:", error);
+    }
+  }
+
+  // Initial fetch
+  fetchBusLocations();
+  // Repeat every 5 seconds
+  setInterval(fetchBusLocations, 5000);
+</script>
+{% endblock body %} {% endcomment %}
+
+
+{% load static %}
+
+{% block style %}
+<!-- Leaflet CSS and JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<style>
+  #map {
+    height: 90vh;
+    width: 100%;
+  }
+</style>
+{% endblock style %}
+
+{% block body %}
+<h2 style="text-align: center;">Live Bus Tracker (Mock Mode)</h2>
+<div id="map"></div>
+
+<script>
+  // Initialize map centered around KFUEIT (Rahim Yar Khan)
+  var map = L.map('map').setView([28.0661, 70.2598], 16); // KFUEIT coordinates
+
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+  }).addTo(map);
+
+  // Mock bus data (initial positions around KFUEIT)
+  let buses = {
+    "Bus 101": { lat: 28.0661, lon: 70.2598 },
+    "Bus 102": { lat: 28.0665, lon: 70.2605 },
+    "Bus 103": { lat: 28.0658, lon: 70.2589 },
+    "Bus 104": { lat: 28.0663, lon: 70.2611 },
+    "Bus 105": { lat: 28.0655, lon: 70.2592 },
+  };
+
+  let markers = {};
+
+  // Function to slightly randomize bus positions (simulate movement)
+  function randomizeLocation(lat, lon) {
+    const latOffset = (Math.random() - 0.5) * 0.0006;
+    const lonOffset = (Math.random() - 0.5) * 0.0006;
+    return {
+      lat: lat + latOffset,
+      lon: lon + lonOffset
+    };
+  }
+
+  // Update and display mock bus locations
+  function updateMockBusLocations() {
+    let bounds = [];
+
+    for (let busId in buses) {
+      // Simulate movement
+      const { lat, lon } = randomizeLocation(buses[busId].lat, buses[busId].lon);
+      buses[busId] = { lat, lon }; // update internal state
+
+      const popupText = `<b>${busId}</b><br/>Mock Location`;
+
+      if (markers[busId]) {
+        markers[busId].setLatLng([lat, lon]).setPopupContent(popupText);
+      } else {
+        markers[busId] = L.marker([lat, lon]).addTo(map)
+          .bindPopup(popupText)
+          .openPopup();
+      }
+
+      bounds.push([lat, lon]);
+    }
+
+    if (bounds.length > 0) {
+      map.fitBounds(bounds);
+    }
+  }
+
+  // Initial placement
+  updateMockBusLocations();
+  // Update every 5 seconds
+  setInterval(updateMockBusLocations, 10000);
+</script>
+{% endblock body %}
+

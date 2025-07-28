@@ -1,0 +1,107 @@
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    margin: 0; /* Ensure no extra margins around body */
+    padding: 0; /* Remove default padding */
+}
+
+/* Ensure the navbar has consistent styling */
+.navbar {
+    margin-bottom: 0; /* Remove any bottom margin */
+}
+
+/* Container adjustments */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 56px); /* Full viewport height minus navbar height */
+    padding: 0 15px; /* Adjust padding to avoid horizontal scroll */
+}
+
+/* Container for the form */
+.login-form {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 400px; /* Reduced max-width for larger screens */
+    width: 100%; /* Ensure form takes full width within its max-width */
+    height: auto; /* Allow height to adjust based on content */
+}
+
+/* Form Input Styles */
+.form-control {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    padding: 0.75rem 1.25rem;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 0.75rem 1.25rem;
+    border-radius: 4px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* Link Styles */
+.link-primary {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.link-primary:hover {
+    text-decoration: underline;
+}
+
+/* Dark Theme Adjustments */
+body.dark {
+    background-color: #343a40;
+    color: #eaeaea;
+}
+
+body.dark .login-form {
+    background-color: #495057;
+    border: 1px solid #6c757d;
+}
+
+body.dark .form-control {
+    border-color: #6c757d;
+}
+
+body.dark .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+body.dark .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+body.dark .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+body.dark .link-primary {
+    color: #66c0f4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-form {
+        padding: 1.5rem;
+    }
+}

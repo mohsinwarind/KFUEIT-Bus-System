@@ -1,0 +1,61 @@
+{% extends "BusRoute/layout.html" %}
+
+{% block title %}Driver Profile{% endblock %}
+
+{% block style %}
+{% load static %}
+<link href="{% static 'BusRoute/driver_profile.css' %}" rel="stylesheet">
+
+{% endblock style %}
+
+{% block body %}
+<div class="container">
+    <div class="profile-container">
+        <h2 class="text-center">{{ driver.name }}</h2>
+
+        <!-- Display Driver's Image -->
+        {% if driver.image %}
+        <div class="text-center mb-4">
+            <img src="{{ driver.image.url }}" alt="{{ driver.name }}" class="img-fluid">
+        </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <p><strong>Years of Service:</strong> {{ driver.years_of_service }}</p>
+            <p><strong>CNIC Number:</strong> {{ driver.cnic_number }}</p>
+            <p><strong>Contact Number:</strong> {{ driver.contact_number }}</p>
+            <p><strong>Blood Group:</strong> {{ driver.blood_group }}</p>
+            <p><strong>Average Rating:</strong> {{ driver.rating }}</p>
+        </div>
+
+        <h3 class="mt-4 text-center">Reviews</h3>
+        <div id="reviews-list">
+            {% for review in reviews %}
+            <div class="review-box mb-3">
+                <p><strong>{{ review.student.username }}:</strong> {{ review.rating }}/5</p>
+                <p>{{ review.review_text }}</p>
+                <p><small>Reviewed on {{ review.created_at }}</small></p>
+            </div>
+            {% empty %}
+            <p class="text-center">No reviews yet.</p>
+            {% endfor %}
+        </div>
+
+        {% if user.is_authenticated %}
+        <h3 class="mt-4">Add a Review</h3>
+        <form method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="star-rating mb-3">
+                {% for i in star_range reversed %}
+                <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" {% if form.rating.value == i %}checked{% endif %} />
+                <label for="star{{ i }}" title="{{ i }} stars">&#9733;</label>
+                {% endfor %}
+            </div>
+            
+            <textarea name="review_text" class="form-control textarea mb-3" placeholder="Write your review here...">{{ form.review_text.value }}</textarea>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

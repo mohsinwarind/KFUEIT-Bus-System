@@ -1,0 +1,70 @@
+{% extends "BusRoute/layout.html" %}
+{% load static %}
+{% block style %}
+<link href="{% static 'BusRoute/all_missing_complaints.css' %}" rel="stylesheet">
+<style>
+    .complaint-card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .complaint-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+    .status {
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 5px;
+    }
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+    .status-resolved {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    .status-closed {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    .complaint-img {
+        object-fit: cover;
+        max-height: 180px;
+        border-radius: 10px;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="container py-5">
+    <h2 class="text-center mb-5">📋 All Missing Complaints</h2>
+    <div class="row g-4" id="complaints-list">
+        {% for complaint in complaints %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="complaint-card p-3 h-100" data-id="{{ complaint.id }}">
+                {% if complaint.image %}
+                    <img src="{{ complaint.image.url }}" alt="{{ complaint.item_name }}" class="img-fluid mb-3 complaint-img w-100">
+                {% endif %}
+                <h5 class="mb-2">{{ complaint.item_name }}</h5>
+                <p class="mb-1"><strong>👤 Owner:</strong> {{ complaint.student }}</p>
+                <p class="mb-1"><strong>📍 Location:</strong> {{ complaint.location }}</p>
+                <p class="mb-1"><strong>📅 Missing Since:</strong> {{ complaint.date_lost }}</p>
+                <p class="mb-1"><strong>🕒 Reported At:</strong> {{ complaint.date_reported }}</p>
+                <p class="mb-2">
+                    <strong>📌 Status:</strong>
+                    <span class="status {% if complaint.status == 'Pending' %}status-pending{% elif complaint.status == 'Resolved' %}status-resolved{% elif complaint.status == 'Closed' %}status-closed{% endif %}">
+                        {{ complaint.status }}
+                    </span>
+                </p>
+                <p class="mb-2"><strong>📝 Description:</strong> {{ complaint.description }}</p>
+                <p class="mb-1"><strong>📧 Email:</strong> <a href="mailto:{{ complaint.contact_email }}">{{ complaint.contact_email }}</a></p>
+                <p class="mb-0"><strong>📞 Phone:</strong> <a href="tel:{{ complaint.contact_phone }}">{{ complaint.contact_phone }}</a></p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}

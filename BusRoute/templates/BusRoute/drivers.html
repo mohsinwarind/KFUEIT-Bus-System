@@ -1,0 +1,41 @@
+{% extends "BusRoute/layout.html" %}
+
+{% block title %}Bus Drivers{% endblock title %}
+
+{% block style %}
+{% load static %}
+<link href="{% static 'BusRoute/drivers.css' %}" rel="stylesheet">
+
+{% endblock style %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Our Bus Drivers</h1>
+    <div class="row">
+        {% for driver in drivers %}
+        <div class="col-md-4">
+            {% load static %}
+            <a href="{% url 'driver_profile' driver.pk %}" class="driver-card">
+                {% if driver.image %}
+                <img src="{{ driver.image.url }}" alt="{{ driver.name }}">
+                {% else %}
+                <img src="{% static 'default_image.jpg' %}" alt="Default Image">
+                {% endif %}
+                <div>
+                    <h3>{{ driver.name }}</h3>
+                    <p><strong>Years of Service:</strong> {{ driver.years_of_service }}</p>
+                    <p><strong>CNIC Number:</strong> {{ driver.cnic_number }}</p>
+                    <p><strong>Contact Number:</strong> {{ driver.contact_number }}</p>
+                    <p><strong>Blood Group:</strong> {{ driver.blood_group }}</p>
+                    <p class="rating"><strong>Rating:</strong> {{ driver.rating }}</p>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">No drivers found.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}
