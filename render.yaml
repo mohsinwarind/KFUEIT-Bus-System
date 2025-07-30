@@ -1,16 +1,16 @@
 services:
   - type: web
-    name: mbox-web
+    name: Kfueit-Bus-System
     env: python
     buildCommand: "./build_files.sh"
-    startCommand: "gunicorn project3.wsgi:application --bind 0.0.0.0:$PORT"
+    startCommand: "gunicorn KfueitBusSystem.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
-        value: "mbox-z3f9.onrender.com"
+        value: "kfueit-bus-system.onrender.com"
       - key: PYTHON_VERSION
         value: "3.11"
       # Add this only if you created a PostgreSQL DB via Render

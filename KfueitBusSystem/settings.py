@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-wk+4u1)0b!+uty$o^w^i-onf!^j63=330wraela#by-bw@o)7h
 DEBUG = True
 
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://kfueit-bus-system.onrender.com', 'kfueit-bus-system.onrender.com']
 
 
 # Application definition
@@ -71,6 +71,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'KfueitBusSystem.wsgi.application'
+
+STATIC_URL = 'static/'
+CSRF_COOKIE_SECURE = True 
+CSTF_TRUSTED_ORIGINS = [
+    'https://kfueit-bus-system.onrender.com',
+    'https://kfueit-bus-system.onrender.com/',
+]
+
 
 
 # Database
@@ -119,7 +127,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
