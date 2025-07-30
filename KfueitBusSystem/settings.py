@@ -27,7 +27,11 @@ SECRET_KEY = 'django-insecure-wk+4u1)0b!+uty$o^w^i-onf!^j63=330wraela#by-bw@o)7h
 DEBUG = True
 
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://kfueit-bus-system.onrender.com', 'kfueit-bus-system.onrender.com']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'kfueit-bus-system.onrender.com'
+]
 
 
 # Application definition
@@ -43,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
