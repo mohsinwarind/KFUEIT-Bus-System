@@ -15,7 +15,7 @@ Compared to previous projects I've done for this course, this one is unique and 
    - The timetable for buses: Students with access can log in and create their own timetable, independent of the university transport office.
    - Missing item complaints: Users can report lost personal belongings, and others who find them can view the complaints and contact the owner.
    - Driver information and reviews: Users can review bus drivers, which helps ensure credibility and accountability. Poor ratings for overspeeding or unmet responsibilities can affect the driver's rating.
-   - 
+   - Live Tracking System :  Students/User can see the live location of buses to see how far they are .
 So these things collectively make this project novel with respect to the preceding projects.
 ## Breakdown of Each File
 
